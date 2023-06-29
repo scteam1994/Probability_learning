@@ -12,41 +12,40 @@ def sample_interval():
         99% 	2.576
         99.5%	2.807
         99.9%	3.291
-    using sampled_var std to estimate confident interval is not correct, especially when sample number is small.
-    That is because sampled_var std is a variable, which influence the confident interval estimation.
+    using sampled_var to estimate confident interval is not correct, especially when sample number is small.
+    That is because sampled_rm is a minimizer of sampled_var.Using sampled_rm generates biased sampled_var.
     P(mean >= sample mean + z_t_0.95(n-1) * unbiased std / (n ** 0.5)) = 2.5%
     when n is big(over 30) , t-distribution is approximated to a normal distribution
 
     """
-    mean_in_interval_times = 0
+    mean_in_interval_times_biased = 0
+    mean_in_interval_times_unbiased = 0
     var_in_interval_times = 0
     times = 100000
-    range_l = 10000
     range_s = 11
     # mean
     z = 1.960
     # 95% t(10) = 2.228
     # 97.5% alpha(10) = 20.483; 2.5%3.247
     z_t = 2.228
-    r = np.random.randn(range_l)
-    rm = np.mean(r)
-    rvar = np.var(r)
+    rm = 0
+    rvar = 1
     for _ in range(times):
-
-        sampled_r = np.random.choice(r, size=range_s)
+        sampled_r = np.random.randn(range_s)
         sampled_rm = np.mean(sampled_r)
         sampled_r_std = np.std(sampled_r)
 
         sampled_var = sampled_r_std ** 2
-        unbias_var = sampled_var * range_s / (range_s - 1)
-        unbias_std = unbias_var ** 0.5
-        # if sampled_rm - z * sampled_r_std / (range_s ** 0.5) <= rm <= sampled_rm + z * sampled_r_std / (range_s ** 0.5):
-        #     in_interval_times += 1
-        if sampled_rm - z_t * unbias_std / (range_s ** 0.5) <= rm <= sampled_rm + z_t * unbias_std / (range_s ** 0.5):
-            mean_in_interval_times += 1
+        unbiased_var = sampled_var * range_s / (range_s - 1)
+        unbiased_std = unbiased_var ** 0.5
+        if sampled_rm - z * sampled_r_std / (range_s ** 0.5) <= rm <= sampled_rm + z * sampled_r_std / (range_s ** 0.5):
+            mean_in_interval_times_biased += 1
+        if sampled_rm - z_t * unbiased_std / (range_s ** 0.5) <= rm <= sampled_rm + z_t * unbiased_std / (range_s ** 0.5):
+            mean_in_interval_times_unbiased += 1
         if (range_s-1)*np.var(sampled_r)/20.483 <= rvar <=(range_s-1)*np.var(sampled_r)/3.247:
             var_in_interval_times += 1
-    print(mean_in_interval_times / times)
+    print(mean_in_interval_times_biased / times)
+    print(mean_in_interval_times_unbiased / times)
     print(var_in_interval_times / times)
 
 
@@ -73,8 +72,7 @@ def sample_variance():
 
 if __name__ == '__main__':
     """
-    random choice from a long sequence doesn't seem to make a  difference from making a short sequence directly,
-    which needs to be verified
+    random choice from a long sequence doesn't make a  difference from making a short sequence directly.
     """
     # sample_variance()
     sample_interval()
