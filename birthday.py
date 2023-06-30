@@ -40,16 +40,22 @@ def birthday2():
     print(np.var(n_students_list))
     plt.hist(n_students_list, bins=365)
     plt.show()
-    # confidence interval
-    sampled_rm = np.mean(n_students_list)
-    unbiased_var = np.var(n_students_list)  # * times / (times - 1)
-    unbiased_std = unbiased_var ** 0.5
-    print("95%", sampled_rm - 1.960 * unbiased_std / (times ** 0.5), ":",
-          sampled_rm + 1.960 * unbiased_std / (times ** 0.5))
-    print("99.9%", sampled_rm - 3.291 * unbiased_std / (times ** 0.5), ":",
-          sampled_rm + 3.291 * unbiased_std / (times ** 0.5))
 
+def calcu():
+    M = 365
+    res =0
+    for n in range(1,M+1):
+        res += np.math.factorial(M-1)*(n**2)/((M**n)*np.math.factorial(M-n))
+    print(res+1)
+
+def calcu2():
+    M = 365
+    res =0
+    for n in range(1,M+1):
+        res += np.math.factorial(M)/((M**n)*np.math.factorial(M-n))
+    print(res+1)
 
 if __name__ == '__main__':
+    calcu2()
     birthday()
     birthday2()
