@@ -24,31 +24,21 @@ class Child:
 
 
 def two_childs_Tuesday():
-    times = 10000000
+    times = 100000
     n = 0
     total = 0
     for _ in range(times):
         child1 = Child(np.random.randint(0, 2), np.random.randint(1, 8))
         child2 = Child(np.random.randint(0, 2), np.random.randint(1, 8))
-        if child1.gender == 0 and child2.gender == 0:
-            continue
-        if child1.gender == 1:
-            if child1.birthday == 2:
+        if child1.gender == 1 or child2.gender == 1:
+            if child1.birthday == 2 and child1.gender == 1 or child2.birthday == 2 and child2.gender == 1:
                 total += 1
-                if child2.gender == 1:
+                if child2.gender+child1.gender == 2:
                     n += 1
-                continue
-        if child2.gender == 1:
-            if child2.birthday == 2:
-                total += 1
-                if child1.gender == 1:
-                    n += 1
-
-
 
     print(n / total)
 
 
 if __name__ == '__main__':
-    # two_childs()
+    two_childs()
     two_childs_Tuesday()
