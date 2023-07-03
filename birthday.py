@@ -1,5 +1,7 @@
+"""
+
+"""
 import numpy as np
-import matplotlib
 import matplotlib.pyplot as plt
 def birthday():
     """
@@ -23,7 +25,7 @@ def birthday():
 
 def birthday2():
     "the expectation of n_students where there are at least 2 students in the classroom share the same birthday"
-    times = 10000
+    times = 100000
     n_students_list = []
     for _ in range(times):
         match_n = False
@@ -56,6 +58,6 @@ def calcu2():
     print(res+1)
 
 if __name__ == '__main__':
-    calcu2()
-    birthday()
+    # calcu2()
+    # birthday()
     birthday2()

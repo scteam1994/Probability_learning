@@ -1,6 +1,8 @@
+"""
+Benford's law describes the relative frequency distribution for leading digits of numbers in datasets.
+"""
+
 import numpy as np
-
-
 def two_childs():
     times = 10000
     n = 0
